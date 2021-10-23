@@ -1,6 +1,7 @@
 env
 __pycache__
 .DS_Store
+__pycache__/app.cpython-39.pyc
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/flask,macos
