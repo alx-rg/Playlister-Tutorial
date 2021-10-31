@@ -6,14 +6,18 @@
 # https://playlister-arg.herokuapp.com/
 # heroku create playlister-arg
 # https://playlister-arg.herokuapp.com/ | https://git.heroku.com/playlister-arg.git
+# https://playlister-arg.herokuapp.com/
+# Push updated app to Heroku : git add . // then git commit // git push heroku main
 
 
 from flask import Flask, render_template, redirect, url_for, request
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 import os
+# pip install dnspython
+# pip3 install certifi
 import certifi
-
+# Info from wd3.myworkday.com/shopify/d/home.htmld and https://medium.com/analytics-vidhya/deploy-a-web-api-with-python-flask-and-mongodb-on-heroku-in-10-mins-71c4571c505d
 ca = certifi.where()
 app = Flask(__name__)
 host = os.environ.get('MONGODB_URI') 
