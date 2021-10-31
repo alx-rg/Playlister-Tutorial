@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form method='POST' action='/playlists'>
-   {% include 'partials/playlists_form.html' %}
-</form>
+   <form method="POST" action="/playlists/{{playlist._id}}">
+      {% include 'partials/playlists_form.html' %}
+   </form>
 {% endblock %}
