@@ -3,25 +3,24 @@
 # http://localhost:5000
 # Start DB with: brew services start mongodb-community@5.0 
 # Stop DB with: brew services stop mongodb-community@5.0
+# https://playlister-arg.herokuapp.com/
+# heroku create playlister-arg
+# https://playlister-arg.herokuapp.com/ | https://git.heroku.com/playlister-arg.git
 
 
-from flask import Flask, render_template, request, redirect, url_for
-from flask.templating import render_template
-from pymongo import MongoClient
+from flask import Flask, render_template, redirect, url_for, request
 from bson.objectid import ObjectId
+from pymongo import MongoClient
+import os
+import certifi
 
-client = MongoClient()
+ca = certifi.where()
+app = Flask(__name__)
+host = os.environ.get('MONGODB_URI') 
+DATABASE_URL = 'mongodb+srv://alexross:UcpxZDzL8yH39aXA@cluster0.c3gdz.mongodb.net/Cluster0?retryWrites=true&w=majority'
+client = MongoClient(DATABASE_URL, tlsCAFile=ca)
 db = client.Playlister
 playlists = db.playlists
-app = Flask(__name__)
-# @app.route('/')
-# def index():
-#     return render_template('home.html', msg='Flask is Cool!!')
-
-# playlists = [ 
-#     { 'title': 'Cat Videos', 'description': 'Cats acting weird' },
-#     { 'title': '80\'s Music', 'description': 'Don\'t stop believing!' }
-# ]
 
 @app.route('/')
 def index():
