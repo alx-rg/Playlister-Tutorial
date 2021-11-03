@@ -105,9 +105,9 @@ def comments_new():
 
 
 @app.route("/playlists/<playlist_id>/comments/<comment_id>/delete", methods=["POST"])
-def delete_comment(playlist_id, comment_id):
+def delete_comment(comment_id):
     comments.delete_one({"_id": ObjectId(comment_id)})
-    return redirect(url_for("playlist_show", playlist_id=playlist_id))
+    return redirect(url_for("playlist_show", playlist_id=request.form.get("playlist_id")))
 
 
 def video_url_creator(id_lst):
