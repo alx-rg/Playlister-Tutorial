@@ -2,7 +2,7 @@
    <div class='card-block'>
        <h4 class='card-title'>{{ comment.title }}</h4>
        <p class='card-text'>{{ comment.content }}</p>
-       <form action='/playlists/comments/{{comment._id}}/delete' method='POST'>
+       <form action='/playlists/comments/{{comment._id}}' method='POST'>
            <button class='btn btn-primary' type='submit'>Delete</button>
            <input type="hidden" value="{{ playlist._id }}" name="playlist_id"/>
        </form>
