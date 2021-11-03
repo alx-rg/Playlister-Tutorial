@@ -59,7 +59,8 @@ def playlists_submit():
 @app.route('/playlists/<playlist_id>')
 def playlists_show(playlist_id):
     playlist = playlists.find_one({'_id': ObjectId(playlist_id)})
-    return render_template('playlists_show.html', playlist=playlist)
+    playlist_comments = comments.find({'playlist_id': ObjectId(playlist_id)})
+    return render_template('playlists_show.html', playlist=playlist, comments=playlist_comments)
 
 @app.route('/playlists/<playlist_id>/edit')
 def playlists_edit(playlist_id):
@@ -87,28 +88,25 @@ def playlists_delete(playlist_id):
     playlists.delete_one({'_id': ObjectId(playlist_id)})
     return redirect(url_for('playlists_index'))
 
-########## COMMENT ROUTES ##########
+# Comment Route Below
 
-@app.route('/playlists/comments', methods=['POST'])
+
+@app.route("/playlists/comments", methods=["POST"])
 def comments_new():
-    """Submit a new comment."""
-    comments = {
-       
+    comment = {
+        "playlist_id": request.form.get("playlist_id"),
+        "title": request.form.get("title"),
+        "content": request.form.get("content")
     }
-    return redirect(url_for('playlists_show', playlist_id=request.form.get('playlist_id')))
+    comments.insert_one(comment)
+    return redirect(url_for("playlist_show", playlist_id=request.form.get("playlist_id")))
 
-def playlists_submit():
-    video_ids = request.form.get('video_ids').split()
-    videos = video_url_creator(video_ids)
-    playlist = {
-        'title': request.form.get('title'),
-        'description': request.form.get('description'),
-        'videos': videos,
-        'video_ids': video_ids,
-    }
-    playlists.insert_one(playlist)
-    return redirect(url_for('playlists_index'))
-########## COMMENT ROUTES ##########
+
+@app.route("/playlists/comments/<comment_id>/delete", methods=["POST"])
+def delete_comment(comment_id):
+    comments.delete_one({"_id": ObjectId(comment_id)})
+    return redirect(url_for("playlist_show", playlist_id=request.form.get("playlist_id")))
+
 
 def video_url_creator(id_lst):
     videos = []
