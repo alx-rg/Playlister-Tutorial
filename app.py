@@ -18,13 +18,18 @@ import os
 # pip3 install certifi
 import certifi
 # Info from wd3.myworkday.com/shopify/d/home.htmld and https://medium.com/analytics-vidhya/deploy-a-web-api-with-python-flask-and-mongodb-on-heroku-in-10-mins-71c4571c505d
+
 ca = certifi.where()
 app = Flask(__name__)
 host = os.environ.get('MONGODB_URI') 
-DATABASE_URL = 'mongodb+srv://alexross:UcpxZDzL8yH39aXA@cluster0.c3gdz.mongodb.net/Cluster0?retryWrites=true&w=majority'
+DATABASE_URL = f'mongodb+srv://alexross:{os.environ.get("password")}@cluster0.c3gdz.mongodb.net/Cluster0?retryWrites=true&w=majority'
+print(DATABASE_URL)
+
 client = MongoClient(DATABASE_URL, tlsCAFile=ca)
 db = client.Playlister
+# MongoDB Database collections
 playlists = db.playlists
+comments = db.comments
 
 @app.route('/')
 def index():
@@ -81,6 +86,29 @@ def playlists_update(playlist_id):
 def playlists_delete(playlist_id):
     playlists.delete_one({'_id': ObjectId(playlist_id)})
     return redirect(url_for('playlists_index'))
+
+########## COMMENT ROUTES ##########
+
+@app.route('/playlists/comments', methods=['POST'])
+def comments_new():
+    """Submit a new comment."""
+    comments = {
+       
+    }
+    return redirect(url_for('playlists_show', playlist_id=request.form.get('playlist_id')))
+
+def playlists_submit():
+    video_ids = request.form.get('video_ids').split()
+    videos = video_url_creator(video_ids)
+    playlist = {
+        'title': request.form.get('title'),
+        'description': request.form.get('description'),
+        'videos': videos,
+        'video_ids': video_ids,
+    }
+    playlists.insert_one(playlist)
+    return redirect(url_for('playlists_index'))
+########## COMMENT ROUTES ##########
 
 def video_url_creator(id_lst):
     videos = []
