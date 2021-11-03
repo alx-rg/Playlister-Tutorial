@@ -13,7 +13,6 @@
 from flask import Flask, render_template, redirect, url_for, request
 from bson.objectid import ObjectId
 from pymongo import MongoClient
-from dotenv import load_dotenv
 import os
 # pip install dnspython
 # pip3 install certifi
@@ -30,7 +29,6 @@ db = client.Playlister
 # MongoDB Database collections
 playlists = db.playlists
 comments = db.comments
-load_dotenv()
 
 @app.route('/')
 def playlists_index():
@@ -107,9 +105,9 @@ def comments_new():
 
 
 @app.route("/playlists/comments/<comment_id>", methods=["POST"])
-def comments_delete(comment_id):
+def delete_comment(playlist_id, comment_id):
     comments.delete_one({"_id": ObjectId(comment_id)})
-    return redirect(url_for("playlists_show", playlist_id=request.form.get("playlist_id")))
+    return redirect(url_for("playlists_show", playlist_id=playlist_id))
 
 def video_url_creator(id_lst):
     videos = []
