@@ -22,11 +22,25 @@
 
     <!-- Add your new partial here: -->
     <!-- Comment form -->
-    {% for comment in comments %}
-        {% include 'partials/comment.html' %}
-    {% endfor %}
-
     {% include 'partials/comment_form.html' %}
+    
+    <h3>Comments</h3>
+    <div class="container">
+        {% for comment in comments %}
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">{{ comment.title }}</h4>
+                    <p class="card-text">{{ comment.content }}</p>
+                </div>
+                <div class="container">
+                    <div class="col">
+                        <a href="/playlists/{{ playlist._id }}/comments/{{ comment._id }}/delete" class="btn btn-primary rounded">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    
     </div>
 </div>
 {% endblock %}
