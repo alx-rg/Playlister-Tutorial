@@ -2,6 +2,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <a href='/'>Back to Home</a>
 <div class='row'>
     <div class='col-sm-6 col-sm-offset-3'>
@@ -22,9 +23,9 @@
     <!-- Add your new partial here: -->
     <!-- Comment form -->
     {% for comment in comments %}
-        {% include "partials/comment.html" %} 
+        {% include 'partials/comment.html' %}
     {% endfor %}
-    
+
     {% include 'partials/comment_form.html' %}
     </div>
 </div>

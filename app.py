@@ -32,10 +32,6 @@ playlists = db.playlists
 comments = db.comments
 
 @app.route('/')
-def index():
-    return redirect('/playlists')
-
-@app.route('/playlists', methods=['GET'])
 def playlists_index():
     return render_template('playlists_index.html', playlists=playlists.find())
 
@@ -96,7 +92,7 @@ def comments_new():
     comment = {
         "playlist_id": request.form.get("playlist_id"),
         "title": request.form.get("title"),
-        "content": request.form.get("content")
+        "description": request.form.get("description")
     }
     comments.insert_one(comment)
     return redirect(url_for("playlist_show", playlist_id=request.form.get("playlist_id")))
