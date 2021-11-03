@@ -60,7 +60,7 @@ def playlists_submit():
 @app.route('/playlists/<playlist_id>')
 def playlists_show(playlist_id):
     playlist = playlists.find_one({'_id': ObjectId(playlist_id)})
-    playlist_comments = comments.find({'playlist_id': ObjectId(playlist_id)})
+    playlist_comments = comments.find({'playlist_id': playlist_id})
     return render_template('playlists_show.html', playlist=playlist, comments=playlist_comments)
 
 @app.route('/playlists/<playlist_id>/edit')
@@ -94,13 +94,14 @@ def playlists_delete(playlist_id):
 
 @app.route("/playlists/comments", methods=["POST"])
 def comments_new():
+    playlist_id = request.form.get("playlist_id")
     comment = {
-        "playlist_id": request.form.get("playlist_id"),
-        "title": request.form.get("title"),
-        "description": request.form.get("description")
+        "title":request.form.get("title"),
+        "content":request.form.get("content"),
+        "playlist_id":playlist_id
     }
     comments.insert_one(comment)
-    return redirect(url_for("playlist_show", playlist_id=request.form.get("playlist_id")))
+    return redirect(url_for(f"playlists_show", playlist_id=playlist_id))
 
 
 @app.route("/playlists/comments/<comment_id>/delete", methods=["POST"])
