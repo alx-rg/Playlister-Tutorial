@@ -23,7 +23,6 @@ ca = certifi.where()
 app = Flask(__name__)
 host = os.environ.get('MONGODB_URI') 
 DATABASE_URL = f'mongodb+srv://alexross:{os.environ.get("password")}@cluster0.c3gdz.mongodb.net/Cluster0?retryWrites=true&w=majority'
-print(DATABASE_URL)
 
 client = MongoClient(DATABASE_URL, tlsCAFile=ca)
 db = client.Playlister
@@ -37,7 +36,13 @@ def playlists_index():
 
 @app.route('/playlists/new')
 def playlists_new():
-    return render_template('playlists_new.html', playlist={}, title='New Playlist')
+    playlist = {
+        'title': "",
+        'description': "",
+        'videos': "",
+        'video_ids': ""
+    }
+    return render_template('playlists_new.html', playlist=playlist)
 
 @app.route('/playlists', methods=['POST'])
 def playlists_submit():
