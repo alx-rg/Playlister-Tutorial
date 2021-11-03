@@ -6,7 +6,7 @@
 
 <div class ='row'>
     {% for playlist in playlists %}
-        <div class='col-md-3'>
+        <div class='col-md-3 card border-primary mb-3" style="margin:15px; min-height:200px;'>
             <!-- <div class='card' style='width: 12rem;'> -->
                 <h2 class='card-title'><a href='/playlists/{{ playlist._id }}'>{{ playlist.title }}</a></h2>
                 <p class='card-text'><small>{{ playlist.description }}</small></p>
